@@ -15,14 +15,26 @@ class AddressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $address = Address::query()->orderByDesc('created_at')->paginate(10);
+        $query = Address::query();
+
+        $perPage = $request->input('per_page', 10);
+        
+        if ($request->has('cep')) {
+            $query->where('postal_code', $request->input('cep'));
+        }
+
+        if ($request->has('logradouro')) {
+            $query->where('street', 'LIKE', '%' . $request->input('logradouro') . '%');
+        }
+
+        $address  = $query->paginate($perPage);
 
         return response()->json([
             'status' => 'success',
             'message' => 'Operation successfully performed',
-            'address' => AddressResource::collection($address)
+            'address' => $address
         ]);
     }
 
