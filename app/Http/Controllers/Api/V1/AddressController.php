@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AddressRequest;
 use App\Http\Resources\AddressResource;
 use App\Models\Address;
+use App\Services\AddressService;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
@@ -17,25 +18,23 @@ class AddressController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Address::query();
+        if ($request->has('cep') || $request->has('logradouro')) {
+            $filteredAddresses = $this->filter(Address::query(), $request);
 
-        $perPage = $request->input('per_page', 10);
-        
-        if ($request->has('cep')) {
-            $query->where('postal_code', $request->input('cep'));
+            if ($filteredAddresses->count() > 0) {
+                return response()->json($filteredAddresses);
+            }
+
+            $cep = AddressService::findAndSaveCEP($request->input('cep'));
+            if (!empty($cep)) {
+                return response()->json([$cep]);
+            }
+
+            return response()->json($filteredAddresses);
         }
 
-        if ($request->has('logradouro')) {
-            $query->where('street', 'LIKE', '%' . $request->input('logradouro') . '%');
-        }
-
-        $address  = $query->paginate($perPage);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Operation successfully performed',
-            'address' => $address
-        ]);
+        $allAddresses = Address::paginate($request->input('per_page', 10));
+        return response()->json($allAddresses);
     }
 
     /**

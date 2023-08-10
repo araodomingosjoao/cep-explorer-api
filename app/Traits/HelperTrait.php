@@ -2,28 +2,26 @@
 
 namespace App\Traits;
 
-use Carbon\Carbon;
-
 trait HelperTrait
 {
-    public function filter($data, $request) {
-        $filter = $request->filter;
-        
-        if ($filter){
-            $filter = is_string($filter)? json_decode($request->filter) : (object) $filter;
-            if (isset($filter->from) && isset($filter->to)){
-                $data = $data->whereBetween('created_at', [ Carbon::parse($filter->from)->startOfDay(), Carbon::parse($filter->to)->endOfDay()]);
-            }
-            if (isset($filter->search)){
-                $data = $data->where('posta_code', 'like', '%' . $filter->search . '%');
-            }
+    public function filter($query, $request)
+    {
+        if ($request->has('cep')) {
+            $query->where('postal_code', $request->input('cep'));
         }
 
-        if ($request->sort && $request->sort_by){
-            $data = $data->orderBy($request->sort_by, $request->sort);
+        if ($request->has('logradouro')) {
+            $query->where('street', 'LIKE', '%' . $request->input('logradouro') . '%');
         }
 
-        return $data->orderBy('created_at')->get();
+        $hasMatchingRecords = $query->exists();
+
+        if ($hasMatchingRecords) {
+            $perPage = $request->input('per_page', 10);
+            return $query->paginate($perPage);
+        }
+
+        return collect();
     }
 }
 
