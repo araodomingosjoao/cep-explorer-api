@@ -27,9 +27,8 @@ class AddressRequest extends FormRequest
             'city' => ['required', 'string'],
             'uf' => ['required', 'string', 'min:2'],
             'street' => ['required', 'string'],
-            'number' => ['required', 'integer'],
             'neighborhood' => ['required', 'string'],
-            'postal_code' => ['required', 'string', 'unique:addresses,postal_code', 'min:8']
+            'cep' => ['required', 'string', 'unique:addresses,cep', 'min:8']
         ];
     }
 

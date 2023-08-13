@@ -15,7 +15,7 @@ class Address extends Model
     public $incrementing = false;
 
     protected $fillable = [
-       'city', 'uf', 'street', 'number', 'complement', 'neighborhood', 'postal_code',
+       'city', 'uf', 'street', 'neighborhood', 'cep',
     ];
 
     public function cep()

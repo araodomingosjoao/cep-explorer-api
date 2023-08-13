@@ -15,12 +15,10 @@ return new class extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('postal_code')->unique();
+            $table->string('cep')->unique();
             $table->string('city');
             $table->string('uf');
             $table->string('street');
-            $table->string('number');
-            $table->string('complement')->nullable();
             $table->string('neighborhood');
             
             $table->softDeletes();
