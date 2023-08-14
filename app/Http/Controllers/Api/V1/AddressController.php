@@ -18,19 +18,22 @@ class AddressController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('cep') || $request->has('logradouro')) {
+        if ($request->has('cep')) {
             $filteredAddresses = $this->filter(Address::query(), $request);
-
+            
             if ($filteredAddresses->count() > 0) {
                 return response()->json($filteredAddresses);
             }
-
             $cep = AddressService::findAndSaveCEP($request->input('cep'));
             if (!empty($cep)) {
                 $cep = Address::find($cep->id)->paginate(10);
                 return response()->json($cep);
             }
+            return response()->json($filteredAddresses);
+        }
 
+        if ($request->has('neighborhood')) {
+            $filteredAddresses = $this->filter(Address::query(), $request);
             return response()->json($filteredAddresses);
         }
 

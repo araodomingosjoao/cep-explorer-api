@@ -10,8 +10,8 @@ trait HelperTrait
             $query->where('cep', $request->input('cep'));
         }
 
-        if ($request->has('logradouro')) {
-            $query->where('street', 'LIKE', '%' . $request->input('logradouro') . '%');
+        if ($request->has('neighborhood')) {
+            $query->where('neighborhood', $request->input('neighborhood'));
         }
 
         $hasMatchingRecords = $query->exists();
