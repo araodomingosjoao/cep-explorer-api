@@ -56,11 +56,11 @@ php artisan serve
 
 O backend Laravel possui as seguintes rotas:
 
-- `GET /api/address`: Retorna todos os endereços cadastrados.
-- `GET /api/address/{id}`: Retorna um endereço específico.
-- `POST /api/address`: Cadastra um novo endereço. (Requer os campos: `cep`, `city`, `street`, `neighborhood`, `uf`)
-- `PUT /api/address/{id}`: Atualiza um endereço existente. (Requer os mesmos campos do POST)
-- `DELETE /api/address/{id}`: Remove um endereço existente.
+- `GET /api/v1/address`: Retorna todos os endereços cadastrados.
+- `GET /api/v1/address/{id}`: Retorna um endereço específico.
+- `POST /api/v1/address`: Cadastra um novo endereço. (Requer os campos: `cep`, `city`, `street`, `neighborhood`, `uf`)
+- `PUT /api/v1/address/{id}`: Atualiza um endereço existente. (Requer os mesmos campos do POST)
+- `DELETE /api/v1/address/{id}`: Remove um endereço existente.
 
 ## Contribuição
 
