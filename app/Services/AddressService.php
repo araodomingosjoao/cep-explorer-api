@@ -17,12 +17,10 @@ class AddressService
         }
 
         Address::create([
-            'postal_code' => $cep,
+            'cep' => $cep,
             'city' => $cepData['localidade'],
-            'state' => $cepData['uf'],
-            'complement' => $cepData['complemento'],
+            'uf' => $cepData['uf'],
             'street' => $cepData['bairro'],
-            'number' => $cepData['ibge'],
             'neighborhood' => $cepData['logradouro'],
         ]);
 

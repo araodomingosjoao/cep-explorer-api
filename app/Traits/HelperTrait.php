@@ -7,7 +7,7 @@ trait HelperTrait
     public function filter($query, $request)
     {
         if ($request->has('cep')) {
-            $query->where('postal_code', $request->input('cep'));
+            $query->where('cep', $request->input('cep'));
         }
 
         if ($request->has('logradouro')) {
