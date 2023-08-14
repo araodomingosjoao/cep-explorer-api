@@ -16,7 +16,7 @@ class AddressService
             return [];
         }
 
-        Address::create([
+        $cepData= Address::create([
             'cep' => $cep,
             'city' => $cepData['localidade'],
             'uf' => $cepData['uf'],

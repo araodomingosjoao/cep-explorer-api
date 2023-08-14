@@ -27,7 +27,8 @@ class AddressController extends Controller
 
             $cep = AddressService::findAndSaveCEP($request->input('cep'));
             if (!empty($cep)) {
-                return response()->json([$cep]);
+                $cep = Address::find($cep->id)->paginate(10);
+                return response()->json($cep);
             }
 
             return response()->json($filteredAddresses);
